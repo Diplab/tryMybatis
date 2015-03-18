@@ -32,6 +32,8 @@ public class TestMybatis {
 			for (Temperature temperature : all) {
 				System.out.println(temperature.getTemperature());
 			}
+			
+			session.commit();
 		} finally {
 			session.close();
 		}
