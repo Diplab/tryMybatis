@@ -2,6 +2,7 @@ package trymybatis;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.io.Resources;
@@ -23,17 +24,21 @@ public class TestMybatis {
 		try {
 			TemperatureMapper mapper = session
 					.getMapper(TemperatureMapper.class);
-
-			Temperature temperature2 = new Temperature();
-			temperature2.setTemperature(10.2);
-			mapper.insert(temperature2);
+			for (int i = 0; i < 10; i++) {
+				Temperature temperature = new Temperature();
+				temperature.setTemperature(15 + 30 * Math.random());
+				temperature.setTime(new Date((long) (Long.MAX_VALUE * Math
+						.random())));
+				mapper.insert(temperature);
+			}
 
 			List<Temperature> all = mapper.selectAll();
+
 			for (Temperature temperature : all) {
-				System.out.println(temperature.getTemperature());
+				System.out.format("%s %f \n", temperature.getTime()
+						.toLocaleString(), temperature.getTemperature());
 			}
-			
-			session.commit();
+
 		} finally {
 			session.close();
 		}

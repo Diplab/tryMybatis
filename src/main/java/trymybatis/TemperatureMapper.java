@@ -6,13 +6,16 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.type.JdbcType;
 
 public interface TemperatureMapper {
 
 	@Select("SELECT * FROM DIP_TEMPERATURE")
-	@Results(value = { @Result(column = "TEMPERATURE_", property = "temperature") })
+	@Results(value = {
+			@Result(column = "TEMPERATURE_", property = "temperature"),
+			@Result(column = "SCAN_TIME_", property = "time") })
 	List<Temperature> selectAll();
 
-	@Insert("INSERT INTO DIP_TEMPERATURE (TEMPERATURE_) VALUES (#{temperature})")
+	@Insert("INSERT INTO DIP_TEMPERATURE (TEMPERATURE_, SCAN_TIME_) VALUES (#{temperature}, #{time})")
 	void insert(Temperature temperature);
 }
